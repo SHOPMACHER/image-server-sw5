@@ -1,0 +1,15 @@
+{
+    "name": "sm/imageserver",
+    "license": "",
+    "description": "Provides Image Server Support for MediaService",
+    "type": "shopware-plugin",
+    "require": {
+        "composer/installers": "~1.0"
+    },
+    "authors": [
+        {
+            "name": "Shopmacher eCommerce GmbH & Co. KG",
+            "email": "info@shopmacher.de"
+        }
+    ]
+}

@@ -1,0 +1,38 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="sm_imageserver.media_adapter" class="SmImageServer\Bundle\MediaBundle\ImageServerAdapter">
+            <argument type="service" id="sm_imageserver.client"/>
+            <argument type="service" id="models"/>
+            <argument type="service" id="sm_imageserver.media_strategy"/>
+        </service>
+
+        <service id="sm_imageserver.config" class="SmImageServer\Struct\Config">
+            <argument id="shopware.plugin.cached_config_reader" type="service"/>
+            <argument>%sm_image_server.plugin_name%</argument>
+        </service>
+
+        <service id="sm_imageserver.client" class="SmImageServer\Services\ImageServer\ImageServerClient">
+            <argument id="sm_imageserver.config" type="service"/>
+        </service>
+
+        <service id="sm_imageserver.media_strategy" class="SmImageServer\Bundle\MediaBundle\ImageServerStrategy">
+        </service>
+
+        <service id="sm_imageserver.strategy_factory" class="SmImageServer\Bundle\MediaBundle\StrategyFactory"
+                 decorates="shopware_media.strategy_factory"
+                 public="false">
+            <argument type="service" id="sm_imageserver.strategy_factory.inner"/>
+            <argument type="service" id="sm_imageserver.media_strategy"/>
+        </service>
+
+        <service id="sm_meleven.thumbnail_manager"
+                 class="SmImageServer\Bundle\MediaBundle\ThumbnailManager"
+                 decorates="thumbnail_manager"/>
+
+    </services>
+</container>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="../../../engine/Shopware/Components/Plugin/schema/plugin.xsd">
+
+    <label lang="de">Image Server</label>
+    <label lang="en">Image Server</label>
+
+    <version>1.0.0</version>
+
+    <copyright>https://www.shopmacher.de/</copyright>
+    <license>proprietary</license>
+
+    <link>https://www.shopmacher.de/</link>
+    <author>SHOPMACHER eCommerce GmbH &amp; Co. KG</author>
+
+    <compatibility minVersion="5.2.0"/>
+</plugin>
