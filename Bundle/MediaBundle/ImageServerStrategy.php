@@ -9,9 +9,6 @@ class ImageServerStrategy implements StrategyInterface
 {
     public function normalize($path)
     {
-        // remove filesystem directories
-        $path = str_replace('//', '/', $path);
-
         // remove everything before /media/...
         preg_match('/.*((media\/(?:archive|image|music|pdf|temp|unknown|video|vector)(?:\/thumbnail)?).*\/((.+)\.(.+)))/', $path, $matches);
 
@@ -25,12 +22,12 @@ class ImageServerStrategy implements StrategyInterface
     public function encode($path)
     {
         $path = $this->normalize($path);
+        $path = str_replace("/thumbnail", "", $path);
 
         if ($this->isEncoded($path)) {
             return $path;
         }
 
-        $path       = str_replace("/thumbnail", "", $path);
         $remotePath = $this->buildMediaServerPath($path);
 
         return $remotePath ?: $path;
@@ -39,6 +36,7 @@ class ImageServerStrategy implements StrategyInterface
     private function buildMediaServerPath($path)
     {
         $width = $height = 0;
+
         // retina
         if (preg_match("#media/image/(.*)_([\d]+)x([\d]+)(@2x)\.(.*)$#", $path, $matches)) {
             $filename  = $matches[1];
@@ -54,22 +52,32 @@ class ImageServerStrategy implements StrategyInterface
         }
         else {
             $pathinfo  = pathinfo($path);
-            $filename  = $pathinfo['filename'];
-            $extension = $pathinfo['extension'];
+            $filename  = $pathinfo['filename'] ?: '';
+            $extension = $pathinfo['extension'] ?: '';
         }
 
-        $path       = sprintf("media/image/%s.%s", $filename, $extension);
-        $remotePath = Utils::getRemotePathByLocalPah($path);
+        if($filename && $extension){
+            $path       = sprintf("media/image/%s.%s", $filename, $extension);
+            $remotePath = Utils::getRemotePathByLocalPath($path);
 
-        if ($width && $height) {
-            return sprintf("%s?w=%s&h=%s", $remotePath, $width, $height);
+            if(!$remotePath) {
+                return $path;
+            }
+
+            if ($width && $height) {
+                return sprintf("%s?w=%s&h=%s", $remotePath, $width, $height);
+            }
+
+            return $remotePath;
         }
 
-        return $remotePath ?: $path;
+        return $path;
     }
 
     public function isEncoded($path)
     {
-        return preg_match("#[0-9a-z]{1}\/[0-9a-z]{2}\/.*\.*$#", $path);
+        $remotePath = Utils::buildRemotePath($path);
+
+        return $remotePath === $path;
     }
 }

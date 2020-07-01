@@ -7,7 +7,7 @@
     $ ./bin/console sw:plugin:install SmImageServer --clear-cache
     ```
 3. Update the plugin configuration for the ImageServer API authentication.
-4.  Update the Shopware CDN configuration .In ./config.php, replace|edit your configuration like this:
+4. Update the Shopware CDN configuration .In ./config.php, replace/edit your configuration like this:
     ```
     # config.php
         'cdn' => [

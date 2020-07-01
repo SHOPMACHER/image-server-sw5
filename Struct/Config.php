@@ -30,7 +30,6 @@ class Config
     {
         $configurations = $configReader->getByPluginName($pluginName);
 
-        $this->apiUrl   = $configurations['image_server_url'];
         $this->apiToken = $configurations['image_server_token'];
         $this->uuid     = $configurations['image_server_uuid'];
     }

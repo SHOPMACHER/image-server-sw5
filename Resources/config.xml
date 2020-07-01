@@ -9,26 +9,16 @@
             <label lang="en">IMAGE SERVER CONFIGURATION</label>
         </element>
         <element type="text">
-            <name>image_server_url</name>
-            <label lang="de">API URL</label>
-            <label lang="en">API URL</label>
-            <description>Please input the API URL. Example: https://imageserver.scalecommerce.cloud/api/v1/
-            </description>
-        </element>
-
-        <element type="text">
             <name>image_server_token</name>
             <label lang="de">API Access Token</label>
             <label lang="en">API Access Token</label>
-            <description>Please input the API Access Token. Contact with Image Server administrator to get one.
-            </description>
+            <description>Please input the API Access Token from Image Server</description>
         </element>
-
         <element type="text">
             <name>image_server_uuid</name>
-            <label lang="de">UUID</label>
-            <label lang="en">UUID</label>
-            <description>Please input the UUID. Contact with Image Server administrator to get one.</description>
+            <label lang="de">Project UUID</label>
+            <label lang="en">Project UUID</label>
+            <description>Please input the Image Server project UUID where images are uploaded to.</description>
         </element>
     </elements>
 </config>

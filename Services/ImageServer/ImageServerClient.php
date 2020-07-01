@@ -8,6 +8,8 @@ use SmImageServer\Struct\Config;
 
 class ImageServerClient
 {
+    public const BASE_URL = 'https://imageserver.scalecommerce.cloud/api/v1/';
+
     /**
      * @var Client
      */
@@ -28,7 +30,7 @@ class ImageServerClient
         $this->config = $config;
         $this->client = new Client(
             [
-                'base_url' => $config->apiUrl,
+                'base_url' => self::BASE_URL,
                 'defaults' => [
                     'headers' => [
                         'x-auth-token' => $config->apiToken

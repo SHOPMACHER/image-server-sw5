@@ -30,9 +30,21 @@
             <argument type="service" id="sm_imageserver.media_strategy"/>
         </service>
 
-        <service id="sm_meleven.thumbnail_manager"
+        <service id="sm_imageserver.thumbnail_manager"
                  class="SmImageServer\Bundle\MediaBundle\ThumbnailManager"
-                 decorates="thumbnail_manager"/>
+                 decorates="thumbnail_manager">
+            <argument type="service" id="thumbnail_generator_basic"/>
+            <argument>%shopware.app.rootDir%</argument>
+            <argument type="service" id="events"/>
+            <argument type="service" id="shopware_media.media_service"/>
+        </service>
+
+        <service id="sm_imageserver.subscriber.register_template"
+                 class="SmImageServer\Subscriber\RegisterTemplate">
+            <argument>%sm_image_server.plugin_dir%</argument>
+            <argument id="template" type="service"/>
+            <tag name="shopware.event_subscriber"/>
+        </service>
 
     </services>
 </container>
