@@ -11,13 +11,8 @@
             <argument type="service" id="sm_imageserver.media_strategy"/>
         </service>
 
-        <service id="sm_imageserver.config" class="SmImageServer\Struct\Config">
-            <argument id="shopware.plugin.cached_config_reader" type="service"/>
-            <argument>%sm_image_server.plugin_name%</argument>
-        </service>
-
         <service id="sm_imageserver.client" class="SmImageServer\Services\ImageServer\ImageServerClient">
-            <argument id="sm_imageserver.config" type="service"/>
+            <argument>%shopware.cdn.adapters.imageserver.auth%</argument>
         </service>
 
         <service id="sm_imageserver.media_strategy" class="SmImageServer\Bundle\MediaBundle\ImageServerStrategy">

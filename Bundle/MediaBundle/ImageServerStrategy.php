@@ -24,6 +24,12 @@ class ImageServerStrategy implements StrategyInterface
         $path = $this->normalize($path);
         $path = str_replace("/thumbnail", "", $path);
 
+        $remotePath = Utils::getRemotePathByLocalPath($path);
+
+        if ($remotePath) {
+            return $remotePath;
+        }
+
         if ($this->isEncoded($path)) {
             return $path;
         }
@@ -37,19 +43,21 @@ class ImageServerStrategy implements StrategyInterface
     {
         $width = $height = 0;
 
-        // retina
+        // retina thumbnail
         if (preg_match("#media/image/(.*)_([\d]+)x([\d]+)(@2x)\.(.*)$#", $path, $matches)) {
             $filename  = $matches[1];
             $width     = $matches[2] * 2;
             $height    = $matches[3] * 2;
-            $extension = $matches[4];
+            $extension = $matches[5];
         }
+        // normal thumbnail
         elseif (preg_match("/media\/image\/(.*)_([\d]+)x([\d]+)\.(.*)$/", $path, $matches)) {
             $filename  = $matches[1];
             $width     = $matches[2];
             $height    = $matches[3];
             $extension = $matches[4];
         }
+        // original image
         else {
             $pathinfo  = pathinfo($path);
             $filename  = $pathinfo['filename'] ?: '';
@@ -57,15 +65,14 @@ class ImageServerStrategy implements StrategyInterface
         }
 
         if($filename && $extension){
-            $path       = sprintf("media/image/%s.%s", $filename, $extension);
-            $remotePath = Utils::getRemotePathByLocalPath($path);
+            $remotePath = Utils::getRemotePathByLocalPath(sprintf("media/image/%s.%s", $filename, $extension));
 
-            if(!$remotePath) {
+            if(!$remotePath || !$this->isEncoded($remotePath)) {
                 return $path;
             }
 
             if ($width && $height) {
-                return sprintf("%s?w=%s&h=%s", $remotePath, $width, $height);
+                $remotePath =  sprintf("%s?w=%s&h=%s", $remotePath, $width, $height);
             }
 
             return $remotePath;
@@ -76,8 +83,13 @@ class ImageServerStrategy implements StrategyInterface
 
     public function isEncoded($path)
     {
-        $remotePath = Utils::buildRemotePath($path);
+        $projectName = Shopware()->Container()->getParameter('shopware.cdn.adapters.imageserver.auth.project_name');
 
-        return $remotePath === $path;
+        // vundb.dev/7/0b/70755_1.jpg?w=200&h=200
+        if(strpos($path, $projectName . '/')  === 0){
+            return  true;
+        }
+
+        return false;
     }
 }

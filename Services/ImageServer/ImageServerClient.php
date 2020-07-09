@@ -16,16 +16,11 @@ class ImageServerClient
     private $client;
 
     /**
-     * @var Config
+     * @var array
      */
     private $config;
 
-    /**
-     * ImageServerClient constructor.
-     *
-     * @param Config $config
-     */
-    public function __construct(Config $config)
+    public function __construct(array $config)
     {
         $this->config = $config;
         $this->client = new Client(
@@ -33,7 +28,7 @@ class ImageServerClient
                 'base_url' => self::BASE_URL,
                 'defaults' => [
                     'headers' => [
-                        'x-auth-token' => $config->apiToken
+                        'x-auth-token' => $config['access_token']
                     ],
                     'timeout' => 10,
                 ]
@@ -57,7 +52,7 @@ class ImageServerClient
                 [
                     'body' => [
                         'images[]' => $resource,
-                        'uuid'     => $this->config->uuid,
+                        'uuid'     => $this->config['project_uuid'],
                         'override' => 0
                     ]
                 ]
@@ -68,6 +63,10 @@ class ImageServerClient
         }
 
         $content = json_decode($response->getBody(), true);
+
+        if (!isset($content['files']) || empty($content['files'])) {
+            throw new ImageServerClientException(sprintf("Upload %s failed!", $path));
+        }
 
         $files = $content['files'];
         $file  = reset($files);
@@ -86,13 +85,16 @@ class ImageServerClient
         }
 
         try {
-
             $response = $this->client->delete('image/' . $uuid);
         } catch (Exception $exception) {
             throw new ImageServerClientException(sprintf("Delete image uuid %s failed!", $uuid), $exception->getCode());
         }
 
         $content = json_decode($response->getBody(), true);
+
+        if (isset($content['error']) && $content['error'] === 1) {
+            throw new ImageServerClientException(sprintf("Delete %s failed!", $uuid));
+        }
 
         return !$content['error'];
     }

@@ -27,7 +27,7 @@ class StrategyFactory extends BaseStrategyFactory
      */
     public function factory($strategy)
     {
-        if ($strategy === 'ImageServer') {
+        if ($strategy === 'imageserver') {
             return $this->strategy;
         }
 

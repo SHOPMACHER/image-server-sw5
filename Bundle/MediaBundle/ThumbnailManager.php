@@ -25,7 +25,7 @@ class ThumbnailManager extends Manager
 
     public function createMediaThumbnail(Media $media, $thumbnailSizes = array(), $keepProportions = false)
     {
-        if ($this->mediaService->getAdapterType() === 'ImageServer'){
+        if ($this->mediaService->getAdapterType() === 'imageserver'){
             return;
         }
 

@@ -9,6 +9,7 @@ use League\Flysystem\Util;
 use RuntimeException;
 use Shopware\Bundle\MediaBundle\Strategy\StrategyInterface;
 use Shopware\Components\Model\ModelManager;
+use Shopware\Models\Media\Media;
 use SmImageServer\Services\ImageServer\ImageServerClient;
 use SmImageServer\Services\ImageServer\ImageServerClientException;
 use SmImageServer\Utils\Utils;
@@ -35,6 +36,11 @@ class ImageServerAdapter extends AbstractAdapter
     private $modelManager;
 
     /**
+     * @var string
+     */
+    private $projectName;
+
+    /**
      * ImageServerAdapter constructor.
      *
      * @param ImageServerClient $client
@@ -46,6 +52,7 @@ class ImageServerAdapter extends AbstractAdapter
         $this->strategy          = $strategy;
         $this->imageServerClient = $client;
         $this->modelManager      = $modelManager;
+        $this->projectName = Shopware()->Container()->getParameter('shopware.cdn.adapters.imageserver.auth.project_name');
     }
 
     public function write($path, $contents, Config $config)
@@ -56,7 +63,7 @@ class ImageServerAdapter extends AbstractAdapter
         $stream = fopen($filename, 'w+b');
         fwrite($stream, $contents);
         rewind($stream);
-        $result = $this->writeStream($path, $stream, $config);
+        $result = $this->writeStream($path, $stream, $config, $isUpload = true);
         fclose($stream);
         unlink($filename);
 
@@ -74,15 +81,26 @@ class ImageServerAdapter extends AbstractAdapter
      * @param string   $path
      * @param resource $resource
      * @param Config   $config
+     * @param bool     $isUpload
      *
      * @return array|false|void
      * @throws ImageServerClientException
      */
-    public function writeStream($path, $resource, Config $config)
+    public function writeStream($path, $resource, Config $config, $isUpload = false)
     {
+        if(!$isUpload) {
+            $media = $this->modelManager->getRepository(Media::class)->findOneBy(['path' => $path]);
+
+            // Only migrate media which path is existed.
+            if(!$media) {
+                return;
+            }
+        }
+
         $remoteImage = $this->imageServerClient->upload($path, $resource);
         $remotePath = $remoteImage['path'];
         $remoteUUID = $remoteImage['uuid'];
+        $remotePath = $this->projectName . '/' . $remotePath;
 
         Utils::insertImageTransfer($path, $remotePath, $remoteUUID);
 
@@ -145,7 +163,13 @@ class ImageServerAdapter extends AbstractAdapter
             return true;
         }
 
-        return (bool)Utils::getRemotePathByLocalPath($path);
+        $remotePath = Utils::getRemotePathByLocalPath($path);
+
+        if ($this->strategy->isEncoded($remotePath)) {
+            return true;
+        }
+
+        return false;
     }
 
     public function read($path)

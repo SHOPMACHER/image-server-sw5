@@ -14,8 +14,8 @@ class SmImageServer extends Plugin
     public static function getSubscribedEvents()
     {
         return [
-            'Shopware_Collect_MediaAdapter_ImageServer'  => 'onCollectAdapter',
-            'Shopware_Collect_MediaStrategy_ImageServer' => 'onCollectStrategy',
+            'Shopware_Collect_MediaAdapter_imageserver'  => 'onCollectAdapter',
+            'Shopware_Collect_MediaStrategy_imageserver' => 'onCollectStrategy',
         ];
     }
 

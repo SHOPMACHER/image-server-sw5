@@ -19,19 +19,23 @@
                     'mediaUrl' => 'md5',
                     'path'     => realpath(__DIR__ . '/')
                 ],
-                'ImageServer' => [
-                    'type'     => 'ImageServer',
-                    'strategy' => 'ImageServer',
-                    'mediaUrl' => 'https://imageserver.scalecommerce.cloud/images/[YOUR_IMAGESERVER_PROJECT_NAME]/'
-                ]
+                'imageserver' => [
+                    'type'     => 'imageserver',
+                    'strategy' => 'imageserver',
+                    'mediaUrl' => 'https://imageserver.scalecommerce.cloud/images/',
+                    'auth' => [
+                       'project_name' => '[project_name]',
+                       'project_uuid' => '[project_uuid]',
+                       'access_token' => '[api_access_token]',
+                    ],
+                ],
             ]
         ],
     ```
 
 ## Migration
-Command to migrate images will be coming soon.
 ```
-
+$ bin/console sw:media:migrate --from=local --to=imageserver
 ```
 
 
