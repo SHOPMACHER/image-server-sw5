@@ -37,7 +37,6 @@
         <service id="sm_imageserver.subscriber.register_template"
                  class="SmImageServer\Subscriber\RegisterTemplate">
             <argument>%sm_image_server.plugin_dir%</argument>
-            <argument id="template" type="service"/>
             <tag name="shopware.event_subscriber"/>
         </service>
 
