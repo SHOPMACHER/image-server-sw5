@@ -1,6 +1,6 @@
 <?php
 
-namespace SmImageServer\Bundle\MediaBundle;
+namespace ShopmacherImageServer5\Bundle\MediaBundle;
 
 use League\Flysystem\Adapter\AbstractAdapter;
 use League\Flysystem\AdapterInterface;
@@ -10,9 +10,9 @@ use RuntimeException;
 use Shopware\Bundle\MediaBundle\Strategy\StrategyInterface;
 use Shopware\Components\Model\ModelManager;
 use Shopware\Models\Media\Media;
-use SmImageServer\Services\ImageServer\ImageServerClient;
-use SmImageServer\Services\ImageServer\ImageServerClientException;
-use SmImageServer\Utils\Utils;
+use ShopmacherImageServer5\Services\ImageServer\ImageServerClient;
+use ShopmacherImageServer5\Services\ImageServer\ImageServerClientException;
+use ShopmacherImageServer5\Utils\Utils;
 
 /**
  * Class ImageServerAdapter

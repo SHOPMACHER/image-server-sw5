@@ -1,6 +1,6 @@
 <?php
 
-namespace SmImageServer\Bundle\MediaBundle;
+namespace ShopmacherImageServer5\Bundle\MediaBundle;
 
 use Enlight_Event_EventManager;
 use Shopware\Bundle\MediaBundle\MediaServiceInterface;
