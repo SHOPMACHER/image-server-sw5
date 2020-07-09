@@ -11,7 +11,7 @@
          verbose="true">
 
     <testsuites>
-        <testsuite name="SmImageServer_TestSuite">
+        <testsuite name="ShopmacherImageServer5_TestSuite">
             <directory>./tests</directory>
         </testsuite>
     </testsuites>

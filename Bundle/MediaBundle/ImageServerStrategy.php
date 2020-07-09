@@ -1,9 +1,9 @@
 <?php
 
-namespace SmImageServer\Bundle\MediaBundle;
+namespace ShopmacherImageServer5\Bundle\MediaBundle;
 
 use Shopware\Bundle\MediaBundle\Strategy\StrategyInterface;
-use SmImageServer\Utils\Utils;
+use ShopmacherImageServer5\Utils\Utils;
 
 class ImageServerStrategy implements StrategyInterface
 {

@@ -1,15 +1,15 @@
 <?php
 
-namespace SmImageServer;
+namespace ShopmacherImageServer5;
 
 use Enlight_Components_Db_Adapter_Pdo_Mysql;
 use Shopware\Bundle\AttributeBundle\Service\CrudService;
 use Shopware\Components\Plugin;
 use Shopware\Components\Plugin\Context\InstallContext;
-use SmImageServer\Bundle\MediaBundle\ImageServerAdapter;
-use SmImageServer\Bundle\MediaBundle\ImageServerStrategy;
+use ShopmacherImageServer5\Bundle\MediaBundle\ImageServerAdapter;
+use ShopmacherImageServer5\Bundle\MediaBundle\ImageServerStrategy;
 
-class SmImageServer extends Plugin
+class ShopmacherImageServer5 extends Plugin
 {
     public static function getSubscribedEvents()
     {

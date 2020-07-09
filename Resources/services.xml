@@ -5,20 +5,20 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="sm_imageserver.media_adapter" class="SmImageServer\Bundle\MediaBundle\ImageServerAdapter">
+        <service id="sm_imageserver.media_adapter" class="ShopmacherImageServer5\Bundle\MediaBundle\ImageServerAdapter">
             <argument type="service" id="sm_imageserver.client"/>
             <argument type="service" id="models"/>
             <argument type="service" id="sm_imageserver.media_strategy"/>
         </service>
 
-        <service id="sm_imageserver.client" class="SmImageServer\Services\ImageServer\ImageServerClient">
+        <service id="sm_imageserver.client" class="ShopmacherImageServer5\Services\ImageServer\ImageServerClient">
             <argument>%shopware.cdn.adapters.imageserver.auth%</argument>
         </service>
 
-        <service id="sm_imageserver.media_strategy" class="SmImageServer\Bundle\MediaBundle\ImageServerStrategy">
+        <service id="sm_imageserver.media_strategy" class="ShopmacherImageServer5\Bundle\MediaBundle\ImageServerStrategy">
         </service>
 
-        <service id="sm_imageserver.strategy_factory" class="SmImageServer\Bundle\MediaBundle\StrategyFactory"
+        <service id="sm_imageserver.strategy_factory" class="ShopmacherImageServer5\Bundle\MediaBundle\StrategyFactory"
                  decorates="shopware_media.strategy_factory"
                  public="false">
             <argument type="service" id="sm_imageserver.strategy_factory.inner"/>
@@ -26,7 +26,7 @@
         </service>
 
         <service id="sm_imageserver.thumbnail_manager"
-                 class="SmImageServer\Bundle\MediaBundle\ThumbnailManager"
+                 class="ShopmacherImageServer5\Bundle\MediaBundle\ThumbnailManager"
                  decorates="thumbnail_manager">
             <argument type="service" id="thumbnail_generator_basic"/>
             <argument>%shopware.app.rootDir%</argument>
@@ -35,7 +35,7 @@
         </service>
 
         <service id="sm_imageserver.subscriber.register_template"
-                 class="SmImageServer\Subscriber\RegisterTemplate">
+                 class="ShopmacherImageServer5\Subscriber\RegisterTemplate">
             <argument>%sm_image_server.plugin_dir%</argument>
             <tag name="shopware.event_subscriber"/>
         </service>

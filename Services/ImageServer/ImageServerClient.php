@@ -1,10 +1,10 @@
 <?php
 
-namespace SmImageServer\Services\ImageServer;
+namespace ShopmacherImageServer5\Services\ImageServer;
 
 use Exception;
 use GuzzleHttp\Client;
-use SmImageServer\Struct\Config;
+use ShopmacherImageServer5\Struct\Config;
 
 class ImageServerClient
 {

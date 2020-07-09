@@ -1,6 +1,6 @@
 <?php
 
-namespace SmImageServer\Utils;
+namespace ShopmacherImageServer5\Utils;
 
 class Utils
 {

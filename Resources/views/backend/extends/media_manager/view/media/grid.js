@@ -1,7 +1,7 @@
 // {namespace name=backend/media_manager/view/main}
 // {block name="backend/media_manager/view/media/grid"}
 // {$smarty.block.parent}
-Ext.define('Shopware.apps.SmImageServer.view.media.Grid', {
+Ext.define('Shopware.apps.ShopmacherImageServer5.view.media.Grid', {
     override: 'Shopware.apps.MediaManager.view.media.Grid',
 
     /**

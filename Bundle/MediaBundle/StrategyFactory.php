@@ -1,6 +1,6 @@
 <?php
 
-namespace SmImageServer\Bundle\MediaBundle;
+namespace ShopmacherImageServer5\Bundle\MediaBundle;
 
 use Shopware\Bundle\MediaBundle\Strategy\StrategyFactory as BaseStrategyFactory;
 
