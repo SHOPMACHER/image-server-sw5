@@ -6,19 +6,19 @@ class Utils
 {
     public static function buildRemotePath(string $localPath)
     {
-        $parsedPath   = parse_url($localPath);
-        $path         = $parsedPath['path'] ?? '';
+        $parsedPath = parse_url($localPath);
+        $path = (isset($parsedPath['path'])) ? $parsedPath['path'] : '';
 
-        if(!$path) {
+        if (!$path) {
             return  $localPath;
         }
 
-        $queryString  = $parsedPath['query'] ?? '';
+        $queryString = (isset($parsedPath['query'])) ? $parsedPath['query'] : '';
         $pathInfo     = pathinfo($path);
-        $baseFilename = $pathInfo['basename'] ;
+        $baseFilename = $pathInfo['basename'];
         $md5          = md5($baseFilename);
 
-        if($queryString) {
+        if ($queryString) {
             $baseFilename .= '?' . $queryString;
         }
 
@@ -30,7 +30,8 @@ class Utils
     public static function deleteImageTransferByRemotePath(string $remotePath): int
     {
         return Shopware()->Db()->delete(
-            'sm_imageserver_transfer', 'remote_path = ' . Shopware()->Db()->quote($remotePath)
+            'sm_imageserver_transfer',
+            'remote_path = ' . Shopware()->Db()->quote($remotePath)
         );
     }
 

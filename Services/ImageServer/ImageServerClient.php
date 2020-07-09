@@ -4,11 +4,10 @@ namespace ShopmacherImageServer5\Services\ImageServer;
 
 use Exception;
 use GuzzleHttp\Client;
-use ShopmacherImageServer5\Struct\Config;
 
 class ImageServerClient
 {
-    public const BASE_URL = 'https://imageserver.scalecommerce.cloud/api/v1/';
+    const BASE_URL = 'https://imageserver.scalecommerce.cloud/api/v1/';
 
     /**
      * @var Client
@@ -57,7 +56,6 @@ class ImageServerClient
                     ]
                 ]
             );
-
         } catch (Exception $exception) {
             throw new ImageServerClientException(sprintf("Upload %s failed!", $path), $exception->getCode());
         }

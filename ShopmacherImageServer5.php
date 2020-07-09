@@ -44,7 +44,7 @@ SQL;
     /**
      * @return ImageServerAdapter
      */
-    public function onCollectAdapter(): ImageServerAdapter
+    public function onCollectAdapter()
     {
         /** @var ImageServerAdapter $imageServerAdapter */
         $imageServerAdapter = $this->container->get('sm_imageserver.media_adapter');
@@ -55,12 +55,11 @@ SQL;
     /**
      * @return ImageServerStrategy
      */
-    public function onCollectStrategy(): ImageServerStrategy
+    public function onCollectStrategy()
     {
         /** @var ImageServerStrategy $imageServerStrategy */
         $imageServerStrategy = $this->container->get('sm_imageserver.media_strategy');
 
         return $imageServerStrategy;
     }
-
 }
