@@ -1,7 +1,7 @@
 // s{namespace name=backend/media_manager/view/main}
 // {block name="backend/media_manager/view/media/view"}
 // {$smarty.block.parent}
-Ext.define('Shopware.apps.SmImageServer.view.media.View', {
+Ext.define('Shopware.apps.ShopmacherImageServer5.view.media.View', {
     override: 'Shopware.apps.MediaManager.view.media.View',
 
     /**

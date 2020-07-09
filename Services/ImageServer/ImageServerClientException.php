@@ -1,6 +1,6 @@
 <?php
 
-namespace SmImageServer\Services\ImageServer;
+namespace ShopmacherImageServer5\Services\ImageServer;
 
 use Exception;
 

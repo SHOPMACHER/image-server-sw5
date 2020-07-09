@@ -1,6 +1,6 @@
 <?php
 
-namespace SmImageServer\Subscriber;
+namespace ShopmacherImageServer5\Subscriber;
 
 use Enlight_Template_Manager;
 
