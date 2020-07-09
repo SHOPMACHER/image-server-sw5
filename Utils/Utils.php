@@ -27,7 +27,7 @@ class Utils
         return $remotePath;
     }
 
-    public static function deleteImageTransferByRemotePath(string $remotePath): int
+    public static function deleteImageTransferByRemotePath(string $remotePath)
     {
         return Shopware()->Db()->delete(
             'sm_imageserver_transfer',

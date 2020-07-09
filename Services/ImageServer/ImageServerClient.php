@@ -76,7 +76,7 @@ class ImageServerClient
         return $file;
     }
 
-    public function delete(string $uuid): bool
+    public function delete(string $uuid)
     {
         if (!$uuid) {
             return false;
