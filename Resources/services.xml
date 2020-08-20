@@ -5,17 +5,24 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
+        <service id="sm_imageserver.config" class="ShopmacherImageServer5\Utils\Config">
+            <argument type="service" id="shopware.plugin.cached_config_reader"/>
+            <argument>%shopmacher_image_server5.plugin_name%</argument>
+        </service>
+
         <service id="sm_imageserver.media_adapter" class="ShopmacherImageServer5\Bundle\MediaBundle\ImageServerAdapter">
             <argument type="service" id="sm_imageserver.client"/>
             <argument type="service" id="models"/>
             <argument type="service" id="sm_imageserver.media_strategy"/>
+            <argument id="sm_imageserver.config" type="service"/>
         </service>
 
         <service id="sm_imageserver.client" class="ShopmacherImageServer5\Services\ImageServer\ImageServerClient">
-            <argument>%shopware.cdn.adapters.imageserver.auth%</argument>
+            <argument id="sm_imageserver.config" type="service" />
         </service>
 
         <service id="sm_imageserver.media_strategy" class="ShopmacherImageServer5\Bundle\MediaBundle\ImageServerStrategy">
+            <argument id="sm_imageserver.config" type="service"/>
         </service>
 
         <service id="sm_imageserver.strategy_factory" class="ShopmacherImageServer5\Bundle\MediaBundle\StrategyFactory"
@@ -38,6 +45,15 @@
                  class="ShopmacherImageServer5\Subscriber\RegisterTemplate">
             <argument>%shopmacher_image_server5.plugin_dir%</argument>
             <tag name="shopware.event_subscriber"/>
+        </service>
+
+        <service id="sm_imageserver.media_service_decorator" 
+                 class="ShopmacherImageServer5\Services\MediaService" 
+                 decorates="shopware_media.media_service" 
+                 public="false">
+            <argument type="service" id="sm_imageserver.media_service_decorator.inner"/>
+            <argument type="service" id="sm_imageserver.media_strategy"/>
+            <argument>%shopware.cdn%</argument>
         </service>
 
     </services>

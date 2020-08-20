@@ -13,6 +13,7 @@ use Shopware\Models\Media\Media;
 use ShopmacherImageServer5\Services\ImageServer\ImageServerClient;
 use ShopmacherImageServer5\Services\ImageServer\ImageServerClientException;
 use ShopmacherImageServer5\Utils\Utils;
+use ShopmacherImageServer5\Utils\Config as PluginConfig;
 
 /**
  * Class ImageServerAdapter
@@ -46,13 +47,15 @@ class ImageServerAdapter extends AbstractAdapter
      * @param ImageServerClient $client
      * @param ModelManager      $modelManager
      * @param StrategyInterface $strategy
+     * @param Config            $config
      */
-    public function __construct(ImageServerClient $client, ModelManager $modelManager, StrategyInterface $strategy)
+    public function __construct(ImageServerClient $client, ModelManager $modelManager, StrategyInterface $strategy, PluginConfig $config)
     {
         $this->strategy          = $strategy;
         $this->imageServerClient = $client;
         $this->modelManager      = $modelManager;
-        $this->projectName = Shopware()->Container()->getParameter('shopware.cdn.adapters.imageserver.auth.project_name');
+        $this->config = $config;
+        $this->projectName = $config->getProjectName();
     }
 
     public function write($path, $contents, Config $config)
@@ -93,7 +96,7 @@ class ImageServerAdapter extends AbstractAdapter
 
             // Only migrate media which path is existed.
             if(!$media) {
-                return;
+                return true;
             }
         }
 

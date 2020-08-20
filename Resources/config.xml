@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="../../../../engine/Shopware/Components/Plugin/schema/config.xsd">
+    <elements>
+        <!-- IMAGE SERVER CONFIGURATION -->
+        <element type="button">
+            <name></name>
+            <label lang="de">IMAGE SERVER CONFIGURATION</label>
+            <label lang="en">IMAGE SERVER CONFIGURATION</label>
+        </element>
+        <element type="text" required="true">
+            <name>api_url</name>
+            <label lang="de">API URL</label>
+            <label lang="en">API URL</label>
+            <description>Please input the API URL. Example: https://imageserver.scalecommerce.cloud/api/v1/
+            </description>
+        </element>
+        <element type="text" required="true">
+            <name>access_token</name>
+            <label lang="de">API Access Token</label>
+            <label lang="en">API Access Token</label>
+            <description>Please input the API Access Token. Contact with Image Server administrator to get one.
+            </description>
+        </element>
+        <element type="text" required="true">
+            <name>project_name</name>
+            <label lang="de">Project Name</label>
+            <label lang="en">Project Name</label>
+            <description>Please input the Project Name. Contact with Image Server administrator to get one.
+            </description>
+        </element>
+        <element type="text" required="true">
+            <name>project_uuid</name>
+            <label lang="de">Project UUID</label>
+            <label lang="en">Project UUID</label>
+            <description>Please input the project UUID. Contact with Image Server administrator to get one.</description>
+        </element>
+    </elements>
+</config>

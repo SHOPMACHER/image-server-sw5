@@ -21,19 +21,15 @@ class ShopmacherImageServer5 extends Plugin
 
     public function install(InstallContext $context)
     {
-        /** @var CrudService $crudService */
-        $crudService = $this->container->get('shopware_attribute.crud_service');
-        $crudService->update('s_media_attributes', 'image_server_path', 'string');
-
-        $this->container->get('models')->generateAttributeModels(['s_media_attributes']);
-
         /** @var Enlight_Components_Db_Adapter_Pdo_Mysql $db */
         $sql = <<<SQL
 CREATE TABLE IF NOT EXISTS sm_imageserver_transfer (
     id INT PRIMARY KEY AUTO_INCREMENT, 
     local_path VARCHAR(255), 
     remote_path VARCHAR(255),
-    remote_uuid VARCHAR(255)
+    remote_uuid VARCHAR(255),
+    KEY `local_path` (`local_path`),
+    KEY `remote_path` (`remote_path`)
     );
 SQL;
 
