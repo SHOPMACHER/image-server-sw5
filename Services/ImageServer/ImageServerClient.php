@@ -4,11 +4,10 @@ namespace ShopmacherImageServer5\Services\ImageServer;
 
 use Exception;
 use GuzzleHttp\Client;
+use ShopmacherImageServer5\Utils\Config;
 
 class ImageServerClient
 {
-    const BASE_URL = 'https://imageserver.scalecommerce.cloud/api/v1/';
-
     /**
      * @var Client
      */
@@ -19,15 +18,17 @@ class ImageServerClient
      */
     private $config;
 
-    public function __construct(array $config)
+    public function __construct(Config $config)
     {
         $this->config = $config;
+        $apiUrl = rtrim($config->getApiUrl(), '/') . '/';
+
         $this->client = new Client(
             [
-                'base_url' => self::BASE_URL,
+                'base_url' => $apiUrl,
                 'defaults' => [
                     'headers' => [
-                        'x-auth-token' => $config['access_token']
+                        'x-auth-token' => $this->config->getAccessToken()
                     ],
                     'timeout' => 10,
                 ]
@@ -51,7 +52,7 @@ class ImageServerClient
                 [
                     'body' => [
                         'images[]' => $resource,
-                        'uuid'     => $this->config['project_uuid'],
+                        'uuid'     => $this->config->getProjectUuid(),
                         'override' => 0
                     ]
                 ]
