@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="../../../../engine/Shopware/Components/Plugin/schema/config.xsd">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../engine/Shopware/Components/Plugin/schema/config.xsd">
     <elements>
         <!-- IMAGE SERVER CONFIGURATION -->
         <element type="button">
@@ -12,28 +11,42 @@
             <name>api_url</name>
             <label lang="de">API URL</label>
             <label lang="en">API URL</label>
-            <description>Please input the API URL. Example: https://imageserver.scalecommerce.cloud/api/v1/
-            </description>
+            <description lang="de">Please input the API URL. Example: https://imageserver.scalecommerce.cloud/api/v1/</description>
+            <description lang="en">Please input the API URL. Example: https://imageserver.scalecommerce.cloud/api/v1/</description>
         </element>
         <element type="text" required="true">
             <name>access_token</name>
             <label lang="de">API Access Token</label>
             <label lang="en">API Access Token</label>
-            <description>Please input the API Access Token. Contact with Image Server administrator to get one.
-            </description>
+            <description lang="de">Please input the API Access Token. Contact with Image Server administrator to get one.</description>
+            <description lang="en">Please input the API Access Token. Contact with Image Server administrator to get one.</description>
         </element>
         <element type="text" required="true">
             <name>project_name</name>
             <label lang="de">Project Name</label>
             <label lang="en">Project Name</label>
-            <description>Please input the Project Name. Contact with Image Server administrator to get one.
-            </description>
+            <description lang="de">Please input the Project Name. Contact with Image Server administrator to get one.</description>
+            <description lang="en">Please input the Project Name. Contact with Image Server administrator to get one.</description>
         </element>
         <element type="text" required="true">
             <name>project_uuid</name>
             <label lang="de">Project UUID</label>
             <label lang="en">Project UUID</label>
-            <description>Please input the project UUID. Contact with Image Server administrator to get one.</description>
+            <description lang="de">Please input the project UUID. Contact with Image Server administrator to get one.</description>
+            <description lang="en">Please input the project UUID. Contact with Image Server administrator to get one.</description>
+        </element>
+        <element type="number" required="true">
+            <name>quality</name>
+            <label lang="de">Quality</label>
+            <label lang="en">Quality</label>
+            <description>Please use the image quality between 1 and 100. Higher is better.</description>
+        </element>
+        <element type="boolean" required="true">
+            <name>delete_after_migration</name>
+            <label lang="de">Delete after Migration</label>
+            <label lang="en">Delete after Migration</label>
+            <description lang="de">Delete source images after migrated to ImageServer.</description>
+            <description lang="en">Delete source images after migrated to ImageServer.</description>
         </element>
     </elements>
 </config>

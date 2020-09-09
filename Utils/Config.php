@@ -6,75 +6,35 @@ use Shopware\Components\Plugin\ConfigReader;
 
 class Config
 {
+    /**
+     * @var string
+     */
     private $projectName;
+
+    /**
+     * @var string
+     */
     private $projectUuid;
+
+    /**
+     * @var string
+     */
     private $apiUrl;
+
+    /**
+     * @var string
+     */
     private $accessToken;
 
     /**
-     * @return mixed
+     * @var int
      */
-    public function getProjectName()
-    {
-        return $this->projectName;
-    }
+    private $quality;
 
     /**
-     * @param mixed $projectName
+     * @var bool
      */
-    public function setProjectName($projectName): void
-    {
-        $this->projectName = $projectName;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getProjectUuid()
-    {
-        return $this->projectUuid;
-    }
-
-    /**
-     * @param mixed $projectUuid
-     */
-    public function setProjectUuid($projectUuid): void
-    {
-        $this->projectUuid = $projectUuid;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getApiUrl()
-    {
-        return $this->apiUrl;
-    }
-
-    /**
-     * @param mixed $apiUrl
-     */
-    public function setApiUrl($apiUrl): void
-    {
-        $this->apiUrl = $apiUrl;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getAccessToken()
-    {
-        return $this->accessToken;
-    }
-
-    /**
-     * @param mixed $accessToken
-     */
-    public function setAccessToken($accessToken): void
-    {
-        $this->accessToken = $accessToken;
-    }
-
+    private $deleteAfterMigration;
 
     /**
      * Config constructor.
@@ -86,9 +46,59 @@ class Config
     {
         $config = $configReader->getByPluginName($pluginName);
 
-        $this->setAccessToken($config['access_token']);
-        $this->setApiUrl($config['api_url']);
-        $this->setProjectName($config['project_name']);
-        $this->setProjectUuid($config['project_uuid']);
+        $this->accessToken = $config['access_token'];
+        $this->apiUrl = $config['api_url'];
+        $this->projectName = $config['project_name'];
+        $this->projectUuid = $config['project_uuid'];
+        $this->quality = (int)$config['quality'];
+        $this->deleteAfterMigration = (bool)$config['delete_after_migration'];
+    }
+
+    /**
+     * @return string
+     */
+    public function getProjectName()
+    {
+        return $this->projectName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProjectUuid()
+    {
+        return $this->projectUuid;
+    }
+
+    /**
+     * @return string
+     */
+    public function getApiUrl()
+    {
+        return $this->apiUrl;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAccessToken()
+    {
+        return $this->accessToken;
+    }
+
+    /**
+     * @return int
+     */
+    public function getQuality()
+    {
+        return $this->quality;
+    }
+
+    /**
+     * @return bool
+     */
+    public function deleteAfterMigration()
+    {
+        return $this->deleteAfterMigration;
     }
 }

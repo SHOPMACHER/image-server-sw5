@@ -14,7 +14,7 @@ class ImageServerClient
     private $client;
 
     /**
-     * @var array
+     * @var Config
      */
     private $config;
 

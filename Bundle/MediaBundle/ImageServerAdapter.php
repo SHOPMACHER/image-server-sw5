@@ -91,21 +91,12 @@ class ImageServerAdapter extends AbstractAdapter
      */
     public function writeStream($path, $resource, Config $config, $isUpload = false)
     {
-        if(!$isUpload) {
-            $media = $this->modelManager->getRepository(Media::class)->findOneBy(['path' => $path]);
-
-            // Only migrate media which path is existed.
-            if(!$media) {
-                return true;
-            }
-        }
-
         $remoteImage = $this->imageServerClient->upload($path, $resource);
         $remotePath = $remoteImage['path'];
         $remoteUUID = $remoteImage['uuid'];
         $remotePath = $this->projectName . '/' . $remotePath;
 
-        Utils::insertImageTransfer($path, $remotePath, $remoteUUID);
+        Utils::insertImageTransfer($this->strategy->normalize($remotePath), $remotePath, $remoteUUID);
 
         return [
             'path'       => $remotePath,
@@ -133,11 +124,22 @@ class ImageServerAdapter extends AbstractAdapter
         return true;
     }
 
+    /**
+     * Deletes an image from Shopware and ImageServer by given remote path.
+     * Query the UUID of the image from mapping table and send delete request.
+     * After request successful, delete entry from mapping table.
+     * 
+     * @param string $path
+     * @return bool
+     */
     public function delete($path)
     {
         $uuid   = Utils::getUuidByRemotePath($path);
-        $result = $this->imageServerClient->delete($uuid);
+        if (0 === strlen($uuid)) {
+            return false;
+        }
 
+        $result = $this->imageServerClient->delete($uuid);
         if (!$result) {
             return false;
         }
@@ -152,7 +154,7 @@ class ImageServerAdapter extends AbstractAdapter
 
     public function createDir($dirname, Config $config)
     {
-       return true;
+        return true;
     }
 
     public function setVisibility($path, $visibility)
@@ -160,16 +162,19 @@ class ImageServerAdapter extends AbstractAdapter
         return compact('visibility');
     }
 
+    /**
+     * Check if path given path exists on ImageServer side.
+     * IMAGE:  "media/image/abc.jpg"
+     * REMOTE: "project/a/bc/abc.jpg?q=75&w=800&h=800"
+     * 
+     * @param string $path
+     * @return bool
+     */
     public function has($path)
     {
-        if($this->strategy->isEncoded($path)){
-            return true;
-        }
-
-        $remotePath = Utils::getRemotePathByLocalPath($path);
-
-        if ($this->strategy->isEncoded($remotePath)) {
-            return true;
+        if ($this->strategy->isEncoded($path)) {
+            $localPath = Utils::getLocalPathByRemotePath($path);
+            return (0 < strlen($localPath));
         }
 
         return false;
@@ -206,12 +211,12 @@ class ImageServerAdapter extends AbstractAdapter
 
     public function getSize($path)
     {
+        throw new RuntimeException(sprintf('"%s" function is not implemented for "%s"', __FUNCTION__, $path));
     }
 
     public function getMimetype($path)
     {
         throw new RuntimeException(sprintf('"%s" function is not implemented for "%s"', __FUNCTION__, $path));
-
     }
 
     public function getTimestamp($path)

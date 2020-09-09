@@ -1,8 +1,7 @@
 <?xml version="1.0" ?>
 
 <container xmlns="http://symfony.com/schema/dic/services"
-           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
         <service id="sm_imageserver.config" class="ShopmacherImageServer5\Utils\Config">
@@ -23,38 +22,39 @@
 
         <service id="sm_imageserver.media_strategy" class="ShopmacherImageServer5\Bundle\MediaBundle\ImageServerStrategy">
             <argument id="sm_imageserver.config" type="service"/>
+            <argument id="sm_imageserver.cached_strategy" type="service"/>
         </service>
 
-        <service id="sm_imageserver.strategy_factory" class="ShopmacherImageServer5\Bundle\MediaBundle\StrategyFactory"
-                 decorates="shopware_media.strategy_factory"
-                 public="false">
+        <service id="sm_imageserver.strategy_factory" class="ShopmacherImageServer5\Bundle\MediaBundle\StrategyFactory" decorates="shopware_media.strategy_factory" public="false">
             <argument type="service" id="sm_imageserver.strategy_factory.inner"/>
             <argument type="service" id="sm_imageserver.media_strategy"/>
         </service>
 
-        <service id="sm_imageserver.thumbnail_manager"
-                 class="ShopmacherImageServer5\Bundle\MediaBundle\ThumbnailManager"
-                 decorates="thumbnail_manager">
+        <service id="sm_imageserver.thumbnail_manager" class="ShopmacherImageServer5\Bundle\MediaBundle\ThumbnailManager" decorates="thumbnail_manager">
             <argument type="service" id="thumbnail_generator_basic"/>
             <argument>%shopware.app.rootDir%</argument>
             <argument type="service" id="events"/>
             <argument type="service" id="shopware_media.media_service"/>
         </service>
 
-        <service id="sm_imageserver.subscriber.register_template"
-                 class="ShopmacherImageServer5\Subscriber\RegisterTemplate">
+        <service id="sm_imageserver.subscriber.register_template" class="ShopmacherImageServer5\Subscriber\RegisterTemplate">
             <argument>%shopmacher_image_server5.plugin_dir%</argument>
             <tag name="shopware.event_subscriber"/>
         </service>
 
-        <service id="sm_imageserver.media_service_decorator" 
-                 class="ShopmacherImageServer5\Services\MediaService" 
-                 decorates="shopware_media.media_service" 
-                 public="false">
+        <!-- <service id="sm_imageserver.media_service_decorator" class="ShopmacherImageServer5\Services\MediaService" decorates="shopware_media.media_service" public="false">
             <argument type="service" id="sm_imageserver.media_service_decorator.inner"/>
             <argument type="service" id="sm_imageserver.media_strategy"/>
             <argument>%shopware.cdn%</argument>
+        </service> -->
+
+        <service id="sm_imageserver.media_migration_decorator" class="ShopmacherImageServer5\Services\MediaMigration" decorates="shopware_media.media_migration" public="false">
+            <argument type="service" id="sm_imageserver.media_migration_decorator.inner"/>
+            <argument type="service" id="models"/>
+            <argument id="sm_imageserver.config" type="service"/>
         </service>
+
+        <service id="sm_imageserver.cached_strategy" class="ShopmacherImageServer5\Services\CachedStrategy"></service>
 
     </services>
 </container>

@@ -12,11 +12,12 @@ class ThumbnailManager extends Manager
 {
     private $mediaService;
 
-    public function __construct(GeneratorInterface $generator,
-                                string $rootDir,
-                                Enlight_Event_EventManager $eventManager,
-                                MediaServiceInterface $mediaService)
-    {
+    public function __construct(
+        GeneratorInterface $generator,
+        string $rootDir,
+        Enlight_Event_EventManager $eventManager,
+        MediaServiceInterface $mediaService
+    ) {
         $this->mediaService = $mediaService;
 
         parent::__construct($generator, $rootDir, $eventManager, $mediaService);
@@ -25,7 +26,7 @@ class ThumbnailManager extends Manager
 
     public function createMediaThumbnail(Media $media, $thumbnailSizes = array(), $keepProportions = false)
     {
-        if ($this->mediaService->getAdapterType() === 'imageserver'){
+        if ($this->mediaService->getAdapterType() === 'imageserver') {
             return;
         }
 

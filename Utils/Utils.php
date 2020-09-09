@@ -37,8 +37,6 @@ class Utils
 
     public static function getRemotePathByLocalPath(string $localPath)
     {
-//        return self::buildRemotePath($localPath);
-
         $sql = <<<SQL
 SELECT remote_path
 FROM sm_imageserver_transfer
@@ -47,6 +45,24 @@ LIMIT 1
 SQL;
 
         return Shopware()->Db()->fetchOne($sql, ['local_path' => $localPath]);
+    }
+
+    /**
+     * Return a Shopware virtual path mapped to given ImageServer remote path.
+     * 
+     * @param string $remotePath
+     * @return string|bool
+     */
+    public static function getLocalPathByRemotePath(string $remotePath)
+    {
+        $sql = <<<SQL
+SELECT local_path
+FROM sm_imageserver_transfer
+WHERE remote_path = :remote_path
+LIMIT 1
+SQL;
+
+        return Shopware()->Db()->fetchOne($sql, ['remote_path' => $remotePath]);
     }
 
     public static function getUuidByRemotePath(string $remotePath)
@@ -61,7 +77,7 @@ SQL;
         return Shopware()->Db()->fetchOne($sql, ['remote_path' => $remotePath]);
     }
 
-    public static function insertImageTransfer(string $localPath, string $remotePath, $remoteUuid)
+    public static function insertImageTransfer(string $localPath, string $remotePath, string $remoteUuid)
     {
         $sql = <<<SQL
 INSERT 
